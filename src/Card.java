@@ -51,6 +51,6 @@ public class Card {
 
     // output toString method
     public String toString() {
-        return "Card: " + getSuit() + " (" + getValueString() + ") of " + getValue();
+        return "Card: " + getValue() + " (" + getValueString() + ") of " + getSuit();
     }
 }
