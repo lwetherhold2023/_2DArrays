@@ -5,6 +5,7 @@ public class Card {
     private int value = 0;
 
     // Card class constructor - default
+    // empty
     public Card() {
         this.suit = "";
         this.valueString = "";
