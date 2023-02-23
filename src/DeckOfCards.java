@@ -4,6 +4,7 @@ public class DeckOfCards {
     // set up variables
     private int count = 0;
     private static final int SET_SIZE = 5;
+    private static final int DECK_SIZE = 52;
 
     // set up arrays
     private Card[][] deck = new Card[4][13];
@@ -29,7 +30,7 @@ public class DeckOfCards {
         }
     }
 
-    // shuffle the class and randomize the order
+    // shuffle the deck and randomize the order
     public void shuffle() {
         /* src: https://www.digitalocean.com/community/tutorials/shuffle-array-java
         List<Card[]> deckList = Arrays.asList(deck);
@@ -44,32 +45,51 @@ public class DeckOfCards {
 
         // src: https://stackoverflow.com/questions/20190110/2d-int-array-shuffle
 
+        // below is some code dump of previous revisions/attempts:
+
+        // clear the ArrayList before shuffling, then add all Cards back
+        //deckList.clear();
+
+        //deckList.add(temp);
+        /*for (int e=0; e < deckList.size(); e++) {
+        deckList.set(e, temp);
+        }*/
+
         // set up randomizer
         Random random = new Random();
 
-        // clear the ArrayList before shuffling, then add all Cards back
-        deckList.clear();
+        for (int e=0; e < DECK_SIZE; e++) {
+            for (int i = deck.length - 1; i > 0; i--) {
+                for (int j = deck[i].length - 1; j > 0; j--) {
+                    int m = random.nextInt(i + 1);
+                    int n = random.nextInt(j + 1);
 
-        for (int i = deck.length - 1; i > 0; i--) {
-            for (int j = deck[i].length - 1; j > 0; j--) {
-                int m = random.nextInt(i + 1);
-                int n = random.nextInt(j + 1);
-
-                Card temp = deck[i][j];
-                deck[i][j] = deck[m][n];
-                deck[m][n] = temp;
-                deckList.add(temp);
+                    Card temp = deck[i][j];
+                    deck[i][j] = deck[m][n];
+                    deck[m][n] = temp;
+                    deckList.set(e, temp);
+                }
             }
         }
     }
 
+    // shuffle the deckList and randomize the order
+    public void shuffleList() {
+        // not enough time to complete, but good idea
+        // this method would shuffle the deckList after each subsequent deal after the initial one
+    }
+
     // deal a card set of 5
     public void deal() throws InterruptedException {
-        for (int i=0; i < SET_SIZE; i++) {
-            System.out.println(deckList.get(i));
-            deckList.remove(i);
-            count--;
-            Thread.sleep(500);
+        if (count - SET_SIZE >= 0) {
+            for (int i=0; i < SET_SIZE; i++) {
+                System.out.println(deckList.get(i));
+                deckList.remove(i);
+                count--;
+                Thread.sleep(500);
+            }
+        } else {
+         System.out.println("\nNot enough cards. Please restart the program.");
         }
     }
 
@@ -78,8 +98,8 @@ public class DeckOfCards {
         System.out.println("Cards Left: " + this.count);
     }
 
+    // print the deck
     public void print(long ms) throws InterruptedException {
-        // print the deck
         for (int row=0; row < deck.length; row++) {
             for (int col=0; col < deck[row].length; col++) {
                 System.out.print(deck[row][col] + "\t");
@@ -89,8 +109,8 @@ public class DeckOfCards {
         }
     }
 
+    // print the deck as the ArrayList
     public void printList(long ms) throws InterruptedException {
-        // print the deck
         for (int i=0; i < deckList.size(); i++) {
             System.out.println(deckList.get(i));
             Thread.sleep(ms);
